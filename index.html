@@ -19,6 +19,14 @@
       line-height:40.375vw;
       font-size: 32.375vw;
     }
+    /* パソコンで見たときは"pc"のclassがついた画像が表示される */
+    .pc { display: block !important; }
+    .sp { display: none !important; }    
+    /* スマートフォンで見たときは"sp"のclassがついた画像が表示される */
+    @media only screen and (max-width: 750px) {
+        .pc { display: none !important; }
+        .sp { display: block !important; }
+    }
   </style>
 </head>
 <body>
@@ -28,7 +36,11 @@
     <v-main>
       <v-container>
         <v-toolbar flat id="tools">
+          <img class="pc" src="logo.png" alt="パソコン用の画像">
+          <img class="sp" src="sp_logo.png" alt="スマートフォン用の画像">
+          <!--
           <v-img max-height="90" max-width="280" src="logo.png"></v-img>
+          -->
           <v-btn-toggle v-model="toggle_multiple"
             color="primary"
             dense
