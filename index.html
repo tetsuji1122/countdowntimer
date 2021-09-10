@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <meta charset="utf-8">
+  <title>countdowntimer</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <style>
+    #app {
+      background:#FFC300
+    }
+    #tools {
+      background:#FFC300
+    }
+    h1 {
+      color:#003049;
+      font-size: 300pt;
+    }
+  </style>
+</head>
+<body>
+<!-- HTML -->
+<div id="app" >
+  <v-app>
+    <v-main>
+      <v-container>
+        <v-toolbar flat id="tools">
+          <v-img max-height="90" max-width="280" src="logo.png"></v-img>
+          <v-btn-toggle v-model="toggle_multiple"
+            color="primary"
+            dense
+            group
+          >
+            <v-btn v-bind:disabled="isStart" @click="doPlay" large>
+              <v-icon color="white" x-large>mdi-play</v-icon>
+            </v-btn>
+            <v-btn v-bind:disabled="isStop" @click="doStop" large>
+              <v-icon color="white" x-large>mdi-stop</v-icon>
+            </v-btn>
+            <v-btn @click="doRestart" large>
+              <v-icon color="white" x-large>mdi-restart</v-icon>
+            </v-btn>
+          </v-btn-toggle>
+        </v-toolbar>
+        <v-row justify="center" align-content="center">
+          <h1>{{ message }}</h1>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
+</div>  
+<!-- Vue.js を読み込む -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<!-- main関数 -->
+<script>
+  let DEFAULT_COUNT = 480;
+  let COUNT_DOWN = 3;
+  let app = new Vue({
+   el: '#app',
+   vuetify: new Vuetify(),
+   data: { 
+     message: 'Hello world!',
+     timerCount: DEFAULT_COUNT,
+     countDown: COUNT_DOWN,
+     isStart: false,
+     isStop: true,
+   },    
+   methods: {
+     doRestart: function(){
+       //console.log("doRestart");
+       this.countDown = COUNT_DOWN;
+       this.timerCount = DEFAULT_COUNT;
+       this.format(this.timerCount);
+     },
+     doStop: function(){
+      //console.log("doStop");
+      this.isStart = false; 
+      this.isStop = true;
+     },
+     doPlay: function(){
+      //console.log("doPlay");
+      this.isStart = true; 
+      this.isStop = false;
+      this.countDownTimer();
+     },
+     countDownTimer: function() {
+       if (this.isStop) return;
+       //カウントダウン
+       if (this.countDown > 0) {
+          setTimeout(() => {
+            this.message = this.countDown;
+            this.countDown--;
+            this.countDownTimer();
+          }, 1000)
+          return;
+       }
+       //タイマー用
+       if(this.timerCount > 0 ) {
+         setTimeout(() => {
+           this.format(this.timerCount--);
+           this.countDownTimer();
+          }, 1000)
+          return;
+        }
+      },
+      format: function(time) {
+        let mm = ('00' + Math.floor(time / 60)).slice(-2);
+        let ss = ('00' + (time % 60)).slice(-2);
+        this.message = mm + ':' + ss;
+      }
+   },
+   mounted : function(){//初期化処理
+    this.format(this.timerCount);
+   }
+  });
+</script>
+</body>
+</html>
