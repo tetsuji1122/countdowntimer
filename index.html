@@ -14,6 +14,9 @@
     #tools {
       background:#FFC300
     }
+    .text {
+      margin-top: 1000px;
+    }
     h1 {
       color:#003049;
       line-height:40.375vw;
@@ -35,13 +38,14 @@
   <v-app>
     <v-main>
       <v-container>
-        <v-toolbar flat id="tools">
+        <v-toolbar flat id="tools" justify="center" >
           <img class="pc" src="logo.png" alt="パソコン用の画像">
           <img class="sp" src="sp_logo.png" alt="スマートフォン用の画像">
           <!--
           <v-img max-height="90" max-width="280" src="logo.png"></v-img>
           -->
-          <v-btn-toggle v-model="toggle_multiple"
+          <v-row justify="center" align-contents="center">
+            <v-btn-toggle
             color="primary"
             dense
             group
@@ -56,6 +60,17 @@
               <v-icon color="white" x-large>mdi-restart</v-icon>
             </v-btn>
           </v-btn-toggle>
+          <v-text-field v-bind:disabled="isStart"
+          v-model="defaultCount"
+          label="countdown seconds"
+          type="number"
+          color="#003049"
+          style="margin-top: 15px;"
+          flat
+          dense
+          @change="init"
+        ></v-text-field>
+          </v-row>
         </v-toolbar>
         <v-row justify="center" align-content="center">
           <h1>{{ message }}</h1>
@@ -76,17 +91,22 @@
    vuetify: new Vuetify(),
    data: { 
      message: 'Hello world!',
+     defaultCount:DEFAULT_COUNT,
      timerCount: DEFAULT_COUNT,
      countDown: COUNT_DOWN,
      isStart: false,
      isStop: true,
    },    
    methods: {
+     init:function(){
+      //console.log(this.route.query.defaultCount);
+      this.countDown = COUNT_DOWN;
+      this.timerCount = this.defaultCount;
+      this.format(this.timerCount);
+     },
      doRestart: function(){
        //console.log("doRestart");
-       this.countDown = COUNT_DOWN;
-       this.timerCount = DEFAULT_COUNT;
-       this.format(this.timerCount);
+       this.init();
      },
      doStop: function(){
       //console.log("doStop");
@@ -113,7 +133,8 @@
        //タイマー用
        if(this.timerCount > 0 ) {
          setTimeout(() => {
-           this.format(this.timerCount--);
+          this.timerCount--;
+           this.format(this.timerCount);
            this.countDownTimer();
           }, 1000)
           return;
@@ -126,7 +147,10 @@
       }
    },
    mounted : function(){//初期化処理
-    this.format(this.timerCount);
+    let urlParams = new URLSearchParams(window.location.search);
+    this.defaultCount = (urlParams.has('t')) ? urlParams.get('t') : DEFAULT_COUNT;
+    if (isNaN(this.defaultCount)) this.defaultCount = DEFAULT_COUNT;
+    this.init();
    }
   });
 </script>
