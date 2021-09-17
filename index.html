@@ -14,9 +14,6 @@
     #tools {
       background:#FFC300
     }
-    .text {
-      margin-top: 1000px;
-    }
     h1 {
       color:#003049;
       line-height:40.375vw;
@@ -86,12 +83,14 @@
 <script>
   let DEFAULT_COUNT = 480;
   let COUNT_DOWN = 3;
+  let startTime = null;
+  let counter = 0;
   let app = new Vue({
    el: '#app',
    vuetify: new Vuetify(),
    data: { 
      message: 'Hello world!',
-     defaultCount:DEFAULT_COUNT,
+     defaultCount: DEFAULT_COUNT,
      timerCount: DEFAULT_COUNT,
      countDown: COUNT_DOWN,
      isStart: false,
@@ -99,10 +98,11 @@
    },    
    methods: {
      init:function(){
-      //console.log(this.route.query.defaultCount);
       this.countDown = COUNT_DOWN;
       this.timerCount = this.defaultCount;
       this.format(this.timerCount);
+      startTime = null;
+      counter = this.defaultCount;
      },
      doRestart: function(){
        //console.log("doRestart");
@@ -117,26 +117,45 @@
       //console.log("doPlay");
       this.isStart = true; 
       this.isStop = false;
-      this.countDownTimer();
+      if (this.countDown > 0) {
+        this.que();
+      } else {
+        this.countDownTimer();
+      }
      },
-     countDownTimer: function() {
-       if (this.isStop) return;
+     que: function() {
+      if (this.isStop) return;
        //カウントダウン
        if (this.countDown > 0) {
           setTimeout(() => {
             this.message = this.countDown;
             this.countDown--;
-            this.countDownTimer();
+            this.que();
           }, 1000)
           return;
        }
+       setTimeout(() => {
+        //START
+        this.countDownTimer();
+       }, 1000)
+     },
+     countDownTimer: function() {
+       if (this.isStop) {
+        startTime = null;
+        counter = this.timerCount;
+        return;
+       }
+       if (startTime == null) startTime = new Date();//開始時刻を取得
+       //経過時刻を計算
+       let sec = Math.floor((new Date() - startTime)/1000);
+       //console.log(sec);
        //タイマー用
        if(this.timerCount > 0 ) {
          setTimeout(() => {
-          this.timerCount--;
+           this.timerCount = (counter > sec) ? counter-sec : 0;
            this.format(this.timerCount);
            this.countDownTimer();
-          }, 1000)
+          }, 100)//0.1秒間隔で経過時間を表示
           return;
         }
       },
