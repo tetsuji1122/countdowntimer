@@ -158,6 +158,8 @@
           }, 100)//0.1秒間隔で経過時間を表示
           return;
         }
+        //カウントダウン終了
+        this.doStop();
       },
       format: function(time) {
         let mm = ('00' + Math.floor(time / 60)).slice(-2);
