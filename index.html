@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <title>countdowntimer</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <style>
     #app {
@@ -18,6 +18,12 @@
       color:#003049;
       line-height:40.375vw;
       font-size: 32.375vw;
+    }
+    h4 {
+      color:#003049;
+    }
+    .btcolor {
+      color:#003049;
     }
     /* パソコンで見たときは"pc"のclassがついた画像が表示される */
     .pc { display: block !important; }
@@ -72,7 +78,36 @@
         <v-row justify="center" align-content="center">
           <h1>{{ message }}</h1>
         </v-row>
-      </v-container>
+        
+        <v-row>
+          <h4>Concept</h4>
+        </v-row>
+        <v-row>
+          <h4>ポッドキャスト文化からシビックテックの入り口を広げたい。<br/>シビックテックに関する取り組みや気になるニュースを雑談形式でお届けします。</h4>
+        </v-row>
+        <v-row>
+          <h4>Sound Effect</h4>
+        </v-row>
+        <v-row>
+          <v-col cols="2">
+            <v-btn @click="sound('hand-clap')" x-large color="#003049" block>
+              <v-icon color="white" x-large>mdi-hand-wave</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="2">
+            <v-btn @click="sound('cow')" x-large color="#003049" block>
+              <v-icon color="white" x-large>mdi-cow</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="2">
+            <v-btn @click="sound('sheep')" x-large color="#003049" block>
+              <v-icon color="white" x-large>mdi-sheep</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="4">　</v-col>
+          <v-col cols="4">　</v-col>
+        </v-row>
+    </v-container>
     </v-main>
   </v-app>
 </div>  
@@ -95,6 +130,7 @@
      countDown: COUNT_DOWN,
      isStart: false,
      isStop: true,
+     soundEffects: {},
    },    
    methods: {
      init:function(){
@@ -165,6 +201,11 @@
         let mm = ('00' + Math.floor(time / 60)).slice(-2);
         let ss = ('00' + (time % 60)).slice(-2);
         this.message = mm + ':' + ss;
+      },
+      sound: function(key) {
+        console.log(key);
+        key = (key == null) ? "cow" : key;
+        this.soundEffects[key].play();
       }
    },
    mounted : function(){//初期化処理
@@ -172,6 +213,13 @@
     this.defaultCount = (urlParams.has('t')) ? urlParams.get('t') : DEFAULT_COUNT;
     if (isNaN(this.defaultCount)) this.defaultCount = DEFAULT_COUNT;
     this.init();
+
+    //効果音の設定
+    
+    this.soundEffects["hand-clap"] = new Audio('se/hand-clap.mp3');
+    this.soundEffects["cow"] = new Audio('se/cow.mp3');
+    this.soundEffects["sheep"] = new Audio('se/sheep.mp3');
+
    }
   });
 </script>
