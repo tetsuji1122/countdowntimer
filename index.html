@@ -83,7 +83,7 @@
           <h4>Concept</h4>
         </v-row>
         <v-row>
-          <h4>ポッドキャスト文化からシビックテックの入り口を広げたい。<br/>シビックテックに関する取り組みや気になるニュースを雑談形式でお届けします。</h4>
+          <h4>ポッドキャスト文化からシビックテックの入り口を広げたい。シビックテックに関する取り組みや気になるニュースを雑談形式でお届けします。シビックテック井戸端キャストはじまります。</h4>
         </v-row>
         <v-row>
           <h4>Sound Effect</h4>
@@ -104,8 +104,11 @@
               <v-icon color="white" x-large>mdi-sheep</v-icon>
             </v-btn>
           </v-col>
-          <v-col cols="4">　</v-col>
-          <v-col cols="4">　</v-col>
+          <v-col cols="2">
+            <v-btn @click="sound('cat')" x-large color="#003049" block>
+              <v-icon color="white" x-large>mdi-cat</v-icon>
+            </v-btn>
+          </v-col>
         </v-row>
     </v-container>
     </v-main>
@@ -219,6 +222,7 @@
     this.soundEffects["hand-clap"] = new Audio('se/hand-clap.mp3');
     this.soundEffects["cow"] = new Audio('se/cow.mp3');
     this.soundEffects["sheep"] = new Audio('se/sheep.mp3');
+    this.soundEffects["cat"] = new Audio('se/cat.mp3');
 
    }
   });
