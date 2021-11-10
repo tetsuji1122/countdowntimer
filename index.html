@@ -204,6 +204,7 @@
         let mm = ('00' + Math.floor(time / 60)).slice(-2);
         let ss = ('00' + (time % 60)).slice(-2);
         this.message = mm + ':' + ss;
+        document.title = '[' + this.message + '] countdowntimer';
       },
       sound: function(key) {
         console.log(key);
