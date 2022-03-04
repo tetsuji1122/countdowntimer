@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <meta charset="utf-8">
+  <title>countdowntimer</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <style>
+    #app {
+      background:#1A1A1A
+    }
+    #tools {
+      background:#1A1A1A
+    }
+    h1 {
+      color:#ffffff;
+      line-height:22.375vw;
+      font-size: 18.375vw;
+    }
+    h3 {
+      color:#999999;
+    }
+    h4 {
+      color:#ffffff;
+    }
+    .btcolor {
+      color:#FE92BC;
+    }
+  </style>
+</head>
+<body>
+<!-- HTML -->
+<div id="app" >
+  <v-app>
+    <v-main>
+      <v-container>
+        <img src="odd_logo.png" alt="odd" >
+        <v-row justify="center" align-content="center">
+          <h1>{{ message }}</h1>
+        </v-row>
+        
+        <v-row>
+          <h3>How to use</h4>
+        </v-row>
+        <v-row>
+          <h4>Counts down OpenDataDay (2022.3.5 0: 0: 0 JST.). Let's celebrate together when OpenData Day comes</h4>
+        </v-row>
+        <v-row>
+          <h3>Sound Effect</h4>
+        </v-row>
+        <v-row>
+          <v-col cols="2">
+            <v-btn @click="sound('hand-clap')" x-large color="#FE92BC" block>
+              <v-icon color="white" x-large>mdi-hand-wave</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="2">
+            <v-btn @click="sound('cat')" x-large color="#FE92BC" block>
+              <v-icon color="white" x-large>mdi-cat</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+    </v-container>
+    </v-main>
+  </v-app>
+</div>  
+<!-- Vue.js を読み込む -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<!-- main関数 -->
+<script>
+  let targetTime = new Date(2022,2,5,0,0,0);//月は-1で指定する
+  let MESSAGE_TEXT = "a happy Open Data Day";
+  let interval = 300; //表示の更新時間（ミリ秒）
+  let app = new Vue({
+   el: '#app',
+   vuetify: new Vuetify(),
+   data: { 
+     message: '',
+     soundEffects: {},
+   },    
+   methods: {
+     init:function(){
+      this.countDownTimer();
+     },
+     countDownTimer: function() {
+       //ターゲット時間まで計算
+       let now = new Date();
+       let d = targetTime - now;
+       if (d >= 0) {
+        this.message = this.format(d);
+        setTimeout(() => {
+           this.countDownTimer();
+          }, interval)//一定間隔で経過時間を表示
+          return;
+       } else {
+        this.message = MESSAGE_TEXT;
+       }
+     },
+     format: function(time) {
+       //ミリ秒を時刻に変換
+       const sec=Math.floor(time/1000)%60;
+       const min=Math.floor(time/1000/60)%60;
+       const hours=Math.floor(time/1000/60/60)%24;
+       const days=Math.floor(time/1000/60/60/24);
+       return days+((days<2)?"day ":"days ")
+       +((hours<10)?"0"+hours:hours)+":"
+       +((min<10)?"0"+min:min)+":"
+       +((sec<10)?"0"+sec:sec);
+     },
+     sound: function(key) {
+        console.log(key);
+        key = (key == null) ? "cat" : key;
+        this.soundEffects[key].play();
+      }
+   },
+   mounted : function(){//初期化処理
+    this.init();
+    //効果音の設定
+    this.soundEffects["hand-clap"] = new Audio('se/hand-clap.mp3');
+    this.soundEffects["cat"] = new Audio('se/cat.mp3');
+   }
+  });
+</script>
+</body>
+</html>
