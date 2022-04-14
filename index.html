@@ -9,10 +9,10 @@
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <style>
     #app {
-      background:#FFC300
+      background: #85B6D7
     }
     #tools {
-      background:#FFC300
+      background:#85B6D7
     }
     h1 {
       color:#003049;
@@ -24,6 +24,9 @@
     }
     .btcolor {
       color:#003049;
+    }
+    .concept {
+      padding: 10px;
     }
     /* パソコンで見たときは"pc"のclassがついた画像が表示される */
     .pc { display: block !important; }
@@ -42,11 +45,12 @@
     <v-main>
       <v-container>
         <v-toolbar flat id="tools" justify="center" >
-          <img class="pc" src="logo.png" alt="パソコン用の画像">
-          <img class="sp" src="sp_logo.png" alt="スマートフォン用の画像">
           <!--
-          <v-img max-height="90" max-width="280" src="logo.png"></v-img>
+          <img class="pc" src="logo.jpg" alt="パソコン用の画像">
+          <img class="sp" src="sp_logo.jpg" alt="スマートフォン用の画像">
           -->
+          <v-img class="pc" max-height="95" max-width="180" src="logo.jpg"></v-img>
+          <v-img class="sp" max-height="50" max-width="96" src="logo.jpg"></v-img>
           <v-row justify="center" align-contents="center">
             <v-btn-toggle
             color="primary"
@@ -78,12 +82,18 @@
         <v-row justify="center" align-content="center">
           <h1>{{ message }}</h1>
         </v-row>
-        
+
         <v-row>
           <h4>Concept</h4>
         </v-row>
         <v-row>
-          <h4>ポッドキャスト文化からシビックテックの入り口を広げたい。シビックテックに関する取り組みや気になるニュースを雑談形式でお届けします。シビックテック井戸端キャストはじまります。</h4>
+            <div class="concept">
+            <h4>みなさんこんばんわ。「title(心理士)のname(大井)」です。
+                この番組は、睡眠や脳機能について研究している人たち・臨床現場でカウンセリングなどをしている人たち・そして実際に睡眠にまつわる疑問や困りごとがある人たちが集って、ざっくばらんに睡眠について考えたり話したりするラジオです。
+                睡眠をテーマに、国内外のさまざまな研究や臨床現場の情報、そして実際に睡眠をよくしたいと取り組んでいる人たちの実践について、対話をしながらみなさんと一緒に睡眠について考えていきます。
+            </h4>
+            <a href="https://anchor.fm/ncnp-cbt-sleep/">ポッドキャスト番組： バク睡らぢお</a>
+            </div>
         </v-row>
         <v-row>
           <h4>Sound Effect</h4>
