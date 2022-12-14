@@ -109,6 +109,11 @@
               <v-icon color="white" x-large>mdi-cat</v-icon>
             </v-btn>
           </v-col>
+          <v-col cols="2">
+            <v-btn @click="sound('bell')" x-large color="#003049" block>
+              <v-icon color="white" x-large>mdi-bell</v-icon>
+            </v-btn>
+          </v-col>
         </v-row>
     </v-container>
     </v-main>
@@ -224,6 +229,7 @@
     this.soundEffects["cow"] = new Audio('se/cow.mp3');
     this.soundEffects["sheep"] = new Audio('se/sheep.mp3');
     this.soundEffects["cat"] = new Audio('se/cat.mp3');
+    this.soundEffects["bell"] = new Audio('se/bell.mp3');
 
    }
   });
